@@ -354,6 +354,7 @@ parseDateM format = parseTimeM True defaultTimeLocale format . T.unpack
 
 parseDateDE = parseDate "%d.%m.%Y"
 parseDateUS = parseDate "%m/%d/%Y"
+parseDateShortUS = parseDate "%-m/%-d/%Y"
   
 -- | retrieval function
 type Getter a = MyRecord -> a
