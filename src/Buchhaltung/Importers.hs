@@ -774,7 +774,7 @@ paypalImport =
         , cPostings =
           [ \env -> CsvPosting
             { cAccount = const env
-            , cAmount = getCsvConcat [ " Gross"
+            , cAmount = getCsvConcat [ " Net"
                                      , " Currency"]
             , cSuffix = Nothing
             , cNegate = const False
@@ -1193,7 +1193,7 @@ paypalImport =
           , cPostings =
             [ \env -> CsvPosting
               { cAccount = const env
-              , cAmount = getCsvConcat ["Gross"
+              , cAmount = getCsvConcat ["Net"
                                        ,"Currency"]
               , cSuffix = Nothing
               , cNegate = const False
