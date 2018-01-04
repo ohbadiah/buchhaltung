@@ -775,7 +775,7 @@ paypalImport =
           [ \env -> CsvPosting
             { cAccount = const env
             , cAmount = getCsvConcat [ " Gross"
-                                             , " Currency"]
+                                     , " Currency"]
             , cSuffix = Nothing
             , cNegate = const False
             }]
@@ -1122,6 +1122,85 @@ paypalImport =
           , cDescription = Field <$> [" Name"
                                      ," Item Title"
                                      ," Type"]
+          }
+  ,baseUS { cVersion = "2018-US"
+          , cFilter  = not . (\s -> any (== s) ["Denied"
+                                               ,"Reversed"
+                                               ,"Removed"
+                                               ,"Voided"
+                                               ,"Canceled"]) . getCsv "Status"
+          , cHeader = ["Date"
+                      ,"Time"
+                      ,"TimeZone"
+                      ,"Name"
+                      ,"Type"
+                      ,"Status"
+                      ,"Currency"
+                      ,"Gross"
+                      ,"Fee"
+                      ,"Net"
+                      ,"From Email Address"
+                      ,"To Email Address"
+                      ,"Transaction ID"
+                      ,"Shipping Address"
+                      ,"Address Status"
+                      ,"Item Title"
+                      ,"Item ID"
+                      ,"Shipping and Handling Amount"
+                      ,"Insurance Amount"
+                      ,"Sales Tax"
+                      ,"Option 1 Name"
+                      ,"Option 1 Value"
+                      ,"Option 2 Name"
+                      ,"Option 2 Value"
+                      ,"Reference Txn ID"
+                      ,"Invoice Number"
+                      ,"Custom Number"
+                      ,"Quantity"
+                      ,"Receipt ID"
+                      ,"Balance"
+                      ,"Address Line 1"
+                      ,"Address Line 2/District/Neighborhood"
+                      ,"Town/City"
+                      ,"State/Province/Region/County/Territory/Prefecture/Republic"
+                      ,"Zip/Postal Code"
+                      ,"Country"
+                      ,"Contact Phone Number"
+                      ,"Subject"
+                      ,"Note"
+                      ,"Country Code"
+                      ,"Balance Impact"]
+          , cBayes = ["Name"
+                     ,"Type"
+                     ,"Status"
+                     ,"From Email Address"
+                     ,"To Email Address"
+                     ,"Shipping Address"
+                     ,"Address Status"
+                     ,"Item Title"
+                     ,"Option 1 Name"
+                     ,"Option 2 Name"
+                     ,"Contact Phone Number"
+                     ,"Address Line 1"
+                     ,"Address Line 2/District/Neighborhood"
+                     ,"Town/City"
+                     ,"State/Province/Region/County/Territory/Prefecture/Republic"
+                     ,"Zip/Postal Code"
+                     ,"Country"
+                     ,"Subject"
+                     ,"Note"]
+
+          , cPostings =
+            [ \env -> CsvPosting
+              { cAccount = const env
+              , cAmount = getCsvConcat ["Gross"
+                                       ,"Currency"]
+              , cSuffix = Nothing
+              , cNegate = const False
+              }]
+          , cDescription = Field <$> ["Name"
+                                     ,"Item Title"
+                                     ,"Type"]
           }]
 
 -- * other stuff

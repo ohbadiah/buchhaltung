@@ -188,7 +188,7 @@ importOpts =
   (progDesc $ concat ["import from german Paypal CSV export with "
                      ,"\"alle guthaben relevanten Zahlungen "
                      ,"(kommagetrennt) ohne warenkorbdetails\". "
-                     ,"versions: 2013, 2014, 2016, 2017, 2017-US"])
+                     ,"versions: 2013, 2014, 2016, 2017, 2017-US, 2018-US"])
 
   <>
   command' "pncbank"
