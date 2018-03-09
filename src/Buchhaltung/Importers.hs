@@ -14,6 +14,7 @@ module Buchhaltung.Importers
   , barclaysUkImporter
   , revolutImporter
   , barclaycardusImporter
+  , capitalOne360Importer
   , pncbankImporter
   , module Buchhaltung.Import
   , getBayesFields
@@ -306,6 +307,51 @@ description_list t cols r = map fst $ sorted r
 
                         -- transformation = map snd mapping'
 csv_header = undefined
+
+-- * Capital One 360 transaction logs
+
+capitalOne360Importer :: Importer ()
+capitalOne360Importer = Importer windoof $ csvImport capitalOne360
+
+capitalOne360 :: VersionedCSV ()
+capitalOne360 = toVersionedCSV (SFormat "capitalOne360" $ DefaultVersion "March 2018")
+  [CSV
+        { cFilter  =(/= "") . getCsv "Transaction Date"
+        , cDate = parseDate8601 . getCsv "Transaction Date"
+        , cStrip = False
+        , cVDate = Just . parseDate8601 . getCsv "Transaction Date"
+        , cBank = const $ const "Capital One 360"
+        , cPostings =
+          [ const CsvPosting
+            { cAccount = getCsv "Account Number"
+            , cAmount = textstrip . (<> " USD") .
+                        getCsv "Transaction Amount"
+            , cSuffix = Nothing
+            , cNegate = const False
+            }]
+        , cSeparator = ','
+        , cHeader = ["BANK ID"
+                    ,"Account Number"
+                    ,"Account Type"
+                    ,"Balance"
+                    ,"Start Date"
+                    ,"End Date"
+                    ,"Transaction Type"
+                    ,"Transaction Date"
+                    ,"Transaction Amount"
+                    ,"Transaction ID"
+                    ," Transaction Description"
+                    ]
+        , cDescription = Field <$> desc
+        , cBayes = desc
+        , cVersion = "March 2018"
+        }
+  ]
+  where desc = [" Transaction Description"
+               ,"Transaction Amount"
+               ,"Transaction Type"
+               ]
+
 
 -- * PNC Bank USA transaction logs
 
@@ -1316,6 +1362,7 @@ defaultFields = fromListUnique . fmap (first $ (() <$))
                ,toBayes aqbankingImport
                ,toBayes barclaycardus
                ,toBayes pncbank
+               ,toBayes capitalOne360
                ,toBayes revolut
                ,toBayes natwestIntl
                ,toBayes barclaysUk

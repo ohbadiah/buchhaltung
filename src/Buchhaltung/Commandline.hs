@@ -52,6 +52,8 @@ run (Import version file action) options = runImport action
           importReadWrite barclaysUkImporter (options' ()) file
         runImport BarclaycardUs =
           importReadWrite barclaycardusImporter (options' ()) file
+        runImport CapitalOne360 =
+          importReadWrite capitalOne360Importer (options' ()) file
         runImport (ComdirectVisa blz) =
           importReadWrite comdirectVisaImporter (options' blz) file
         runImport (Pncbank accountId) =

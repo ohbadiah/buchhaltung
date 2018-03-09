@@ -152,6 +152,12 @@ importOpts =
                      ,"versions: May 2017"])
 
   <>
+  command' "capitalOne360"
+  (pure CapitalOne360)
+  (progDesc $ concat ["import from Capital One 360 web export. "
+                     ,"versions: March 2018"])
+
+  <>
   command' "comdirectVisa"
   (ComdirectVisa . T.pack <$> strArgument
     (metavar "BLZ"))

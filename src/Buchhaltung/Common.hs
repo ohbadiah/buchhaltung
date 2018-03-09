@@ -352,6 +352,7 @@ parseDate format = parseTimeOrError True defaultTimeLocale format . T.unpack
 parseDateM :: Monad m => String -> T.Text -> m Day
 parseDateM format = parseTimeM True defaultTimeLocale format . T.unpack
 
+parseDate8601 = parseDate "%Y-%m-%d"
 parseDateDE = parseDate "%d.%m.%Y"
 parseDateUS = parseDate "%m/%d/%Y"
 parseDateShortUS = parseDate "%-m/%-d/%Y"

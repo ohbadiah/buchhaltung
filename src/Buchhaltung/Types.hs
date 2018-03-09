@@ -469,6 +469,7 @@ data ImportAction = Paypal PaypalUsername
                   | AQBankingImport
                   | ComdirectVisa { comdirectVisaBlz :: T.Text }
                   | BarclaycardUs
+                  | CapitalOne360
                   | NatwestIntl
                   | BarclaysUk
                   | Pncbank { pncAccountIdentifier :: T.Text }
